@@ -1,0 +1,1 @@
+double aGravity = 9.8;
