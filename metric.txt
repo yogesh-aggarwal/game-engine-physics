@@ -1,0 +1,1 @@
+Movement Time Aquired (MilliSeconds) (Excluding Calculation): 1299608

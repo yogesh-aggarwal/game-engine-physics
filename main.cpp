@@ -4,6 +4,7 @@
 #include <time.h>
 #include "constants.h"
 #include <chrono>
+#include <thread>
 #include <fstream>
 
 using namespace std::chrono;
@@ -46,10 +47,10 @@ public:
         this->posX = displacement->X;
         this->posY = displacement->Y;
         this->posZ = displacement->Z;
-        std::cout << "[Position Changed] "
-                  << "X: " << posX << " "
-                  << "Y: " << posY << " "
-                  << "Z: " << posZ << std::endl;
+        // std::cout << "[Position Changed] "
+        //           << "X: " << posX << " "
+        //           << "Y: " << posY << " "
+        //           << "Z: " << posZ << std::endl;
     }
 };
 
@@ -118,16 +119,13 @@ public:
         auto start = high_resolution_clock::now();
         //  Varying Time
         for (double i, j, k = 0;
-             //  i < timeX, j < timeY, k < timeZ;
-             //  i += milliSecondsPerFPS, j += milliSecondsPerFPS, k += milliSecondsPerFPS)
-             i < timeX;
-             i += secondsPerFPS)
+             i <= timeX;
+             i += secondsPerFPS, j += secondsPerFPS, k += secondsPerFPS)
         {
             double disX = calculateDisplacementByAUT(netAccX, motionParameters->initialVelocity->X, i);
-            // double disY = calculateDisplacementByAUT(netAccY, motionParameters->initialVelocity->Y, timeY);
-            // double disZ = calculateDisplacementByAUT(netAccZ, motionParameters->initialVelocity->Z, timeZ);
-            // MotionParameter *displacement = new MotionParameter(disX, disY, disZ);
-            MotionParameter *displacement = new MotionParameter(disX, 0, 0);
+            double disY = calculateDisplacementByAUT(netAccY, motionParameters->initialVelocity->Y, timeY);
+            double disZ = calculateDisplacementByAUT(netAccZ, motionParameters->initialVelocity->Z, timeZ);
+            MotionParameter *displacement = new MotionParameter(disX, disY, disZ);
             this->target->moveTo(displacement);
 
             sleep(milliSecondsPerFPS);
