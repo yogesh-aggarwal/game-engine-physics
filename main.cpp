@@ -4,6 +4,7 @@
 #include <time.h>
 #include "constants.h"
 #include <chrono>
+#include <fstream>
 
 using namespace std::chrono;
 
@@ -133,9 +134,9 @@ public:
         }
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
-        std::cout << duration.count() << std::endl;
-        char a;
-        std::cin >> a; 
+
+        std::ofstream MyFile("metric.txt");
+        MyFile << "Movement Time Aquired (MilliSeconds) (Excluding Calculation): " << duration.count();
     }
 
     void moveUsingFinalVelocity(MotionParameters *motionParameters)
